@@ -674,3 +674,9 @@ test-packages: packages packaging/rpm/centos-systemd/$(UPTODATE) packaging/deb/d
 
 docs: doc
 	cd docs && $(MAKE) docs
+
+.PHONY: chart
+chart: 
+	helm dependency update operations/helm/charts/mimir-distributed
+	helm package operations/helm/charts/mimir-distributed
+	helm repo index .

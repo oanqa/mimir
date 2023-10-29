@@ -74,12 +74,24 @@ spec:
       {{- end }}
       {{- end }}
       nodeSelector:
+        {{- if .Values.monolithic.nodeSelector }}
+        {{- .Values.monolithic.nodeSelector | toYaml | nindent 8 }}
+        {{- else }}
         {{- $rolloutZone.nodeSelector | toYaml | nindent 8 }}
+        {{- end }}
       affinity:
+        {{- if .Values.monolithic.affinity }}
+        {{- .Values.monolithic.affinity | toYaml | nindent 8  }}
+        {{- else }}
         {{- $rolloutZone.affinity | toYaml | nindent 8 }}
+        {{- end }}
       {{- include "mimir.lib.topologySpreadConstraints" (dict "ctx" . "component" "monolithic") | nindent 6 }}
       tolerations:
+        {{- if .Values.monolithic.tolerations }}
+        {{- .Values.monolithic.tolerations | toYaml | nindent 8 }}
+        {{- else }}
         {{- toYaml .Values.monolithic.tolerations | nindent 8 }}
+        {{- end }}
       terminationGracePeriodSeconds: {{ .Values.monolithic.terminationGracePeriodSeconds }}
       volumes:
         - name: config
